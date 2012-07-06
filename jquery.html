@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JQuery</title>
+	<style type="text/css">
+		.bold { font-weight: bold;}
+		.big { font-size: 150%; }
+		.small { font-size: 25%; }
+		.section { border-top: solid 2px #FFF; }
+		button { margin: 0.25em; }
+		body { font-family: 'Helvetica Neue';
+			   font-size: 1.6em;
+			   background: #333;
+			   color: #FFF;
+			   width: 80%;
+			   margin-left: auto;
+			   margin-right: auto; }
+		pre {
+			   border-radius: 10px;
+			   border-width: 3px;
+			   border-color: #FFF;
+			   border-style: solid;
+			   background: #EEE;
+			   color: #000;
+			   padding: 0.66em;
+			   width: 70%;
+			   margin-left: auto;
+			   margin-right: auto; }			   
+	</style>
+</head>
+<body>
+<h1>JQuery: A Quick Survey</h1>
+<div class="section" id="intro">
+<p><em>JQuery provides a <strong>common</strong>, <strong>device-independent</strong> API for manipulating the Document Object Model (DOM) of an HTML document.</em></p>
+<p>Why do you need this?
+<p>Because browsers do not consistently implement methods for working with the DOM.</p>
+</div>
+<div class="section" id="uses">
+<h2>Use Cases</h2>
+<p>Three common use cases:</p>
+<ol>
+	<li>Manipulate Existing Elements and Nodes</li>
+	<li>Create New Elements and Nodes</li>
+	<li>Bind Event Handlers to Elements</li>
+</ol>
+<p>JQuery also provides wrappers for XMLHTTPRequest, data-bindings, and other services, but those are out of scope for this presentation.</p>
+</div>
+<div class="section" id="manipulation">
+<h2>Manipulation</h2>
+<p>JQuery provides an object, accessible as either <code><strong>$</strong></code> or <code><strong>JQuery</strong></code>.</p>
+<p id="demo1">We can use that to select an element or elements in a document.</p>
+<pre>
+	&gt; $('p#demo1').addClass('bold');
+</pre>
+<p><strong>Notice:</strong> Use CSS3 selectors to specify what you are trying to select.</p>
+<p><code>$()</code> returns an object on which you call JQuery's methods.</p>
+<p>If multiple elements/nodes match a selector, then JQuery's methods will be applied to all of them:</p>
+<ul id="demo2">
+	<li>Bada</li>
+	<li>Bing</li>
+	<li>Bada</li>
+	<li>Boom</li>
+</ul>
+<pre>
+&gt; $('ul#demo2 li').addClass('small');
+</pre>
+<p>We can also query a JQuery object to get information about a set of nodes.</p>
+<pre>
+&gt; $('p#demo1').hasClass('foo'); =&gt; false
+&gt; $('p#demo1').css('display');  =&gt; 'block'
+</pre>
+</div>
+<div class="section" id="creation">
+<h2>Creation</h2>
+<p id="demo3">The JQuery object is also used to create new nodes which we can then insert into the document.</p>
+<pre>
+&gt; $('&lt;p&gt;A new paragraph of text has been added.&lt;/p&gt;')
+	 .appendTo('#demo3');
+</pre>
+<h3>Chaining</h3>
+<p id="demo4">JQuery method calls can be chained, so you can perform multiple manipulations of a node.</p>
+<pre>
+&gt; $('&lt;p&gt;Yet another paragraph of text has been added.&lt;/p&gt;')
+     .addClass('bold')
+     .appendTo('#demo4');
+</pre>
+</div>
+<div class="section" id="events">
+<h2>Event Handling</h2>
+<p>JQuery can attach event handlers to elements:</p>
+<button>Press Me</button>
+<pre>
+	&gt; $('button').click(function() {
+		alert('Pressed');
+	});
+</pre>
+</div>
+<div class="section" id="caveats">
+<h2>Caveats and Warnings</h2>
+<h3>New and Fun Ways to XSS Yourself!</h3>
+<p id="whoops">Be mindful of how you change content!</p>
+<pre>
+&gt; $('#whoops').html('&lt;script&gt;alert("XSS!")&lt;/script&gt;');
+</pre>
+vs.
+<pre>
+&gt; $('#whoops').text('&lt;script&gt;alert("XSS!")&lt;/script&gt;');
+</pre>
+<h3>Event Handlers: The JQuery Version of Spaghetti Code</h3>
+<p>Events that trigger asynchronous responses such as AJAX requests means you need to think about using a framework such as backbone.js.</p>
+</div>
+<div class="section" id="how">
+<h2>@#$! Magic</h2>
+<p>JQuery takes advantage of these properties of JavaScript:</p>
+<ul id="magic">
+	<li>Functions are objects</li>
+	<li>Functions can return objects</li>
+	<li>Functions can therefore return themselves</li>
+</ul>
+<pre>
+(function(window) {
+    var FooQuery = {
+       foo: function() { 
+                 console.log('called foo'); 
+                 return this;
+       },
+       bar: function() { 
+                 console.log('called bar'); 
+                 return this; 
+       },
+       baz: function() { 
+                 console.log('called baz'); 
+                 return this; 
+       }
+    };
+    window.FooQuery = FooQuery;
+})(window);
+
+FooQuery.foo().bar().baz().foo().foo();
+</pre>
+</div>
+<script src="http://code.jquery.com/jquery-1.7.2.js"></script>
+<script>
+$(document).ready(function() {
+	
+});
+</script>
+</body>
+</html>
